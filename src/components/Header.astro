@@ -1,0 +1,128 @@
+---
+interface Props {
+  transparent?: boolean;
+}
+
+const { transparent = true } = Astro.props;
+---
+
+<header 
+  id="main-header" 
+  class:list={[
+    "fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
+    { "bg-transparent py-6": transparent, "bg-white shadow-sm py-4": !transparent }
+  ]}
+>
+  <div class="container mx-auto px-4 flex justify-between items-center">
+    <a href="/" class="flex flex-col">
+      <span class:list={["font-serif text-2xl font-semibold tracking-wide transition-colors duration-300", { "text-white": transparent, "text-navy": !transparent }]} id="logo-text">S-Partners</span>
+      <span class="font-sans text-[10px] uppercase tracking-widest text-gray-500">Advisory Company</span>
+    </a>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden md:flex space-x-8">
+      <a href="/" class:list={["nav-link font-sans text-sm transition-colors duration-200 hover:text-gold", { "text-white": transparent, "text-navy": !transparent }]}>Trang chủ</a>
+      <a href="/dich-vu" class:list={["nav-link font-sans text-sm transition-colors duration-200 hover:text-gold", { "text-white": transparent, "text-navy": !transparent }]}>Dịch vụ</a>
+      <a href="/ve-chung-toi" class:list={["nav-link font-sans text-sm transition-colors duration-200 hover:text-gold", { "text-white": transparent, "text-navy": !transparent }]}>Về chúng tôi</a>
+      <a href="/ban-tin" class:list={["nav-link font-sans text-sm transition-colors duration-200 hover:text-gold", { "text-white": transparent, "text-navy": !transparent }]}>Bản tin</a>
+      <a href="/lien-he" class:list={["nav-link font-sans text-sm transition-colors duration-200 hover:text-gold", { "text-white": transparent, "text-navy": !transparent }]}>Liên hệ</a>
+    </nav>
+
+    <!-- Mobile menu button -->
+    <button id="mobile-menu-btn" aria-label="Menu" class:list={["md:hidden flex flex-col justify-center items-center w-8 h-8 space-y-1.5 focus:outline-none transition-colors duration-300", { "text-white": transparent, "text-navy": !transparent }]}>
+      <span class="block w-6 h-0.5 bg-current transition-transform duration-300"></span>
+      <span class="block w-6 h-0.5 bg-current transition-opacity duration-300"></span>
+      <span class="block w-6 h-0.5 bg-current transition-transform duration-300"></span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile menu (Slide-in) -->
+<div id="mobile-menu" class="fixed inset-y-0 right-0 w-64 bg-white shadow-xl transform translate-x-full transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] z-40 pt-20">
+  <nav class="flex flex-col space-y-6 px-6 py-4">
+    <a href="/" class="font-sans text-base text-navy hover:text-gold transition-colors duration-200">Trang chủ</a>
+    <a href="/dich-vu" class="font-sans text-base text-navy hover:text-gold transition-colors duration-200">Dịch vụ</a>
+    <a href="/ve-chung-toi" class="font-sans text-base text-navy hover:text-gold transition-colors duration-200">Về chúng tôi</a>
+    <a href="/ban-tin" class="font-sans text-base text-navy hover:text-gold transition-colors duration-200">Bản tin</a>
+    <a href="/lien-he" class="font-sans text-base text-navy hover:text-gold transition-colors duration-200">Liên hệ</a>
+  </nav>
+</div>
+
+<!-- Mobile menu backdrop -->
+<div id="mobile-menu-backdrop" class="fixed inset-0 bg-black/20 opacity-0 pointer-events-none transition-opacity duration-300 z-30"></div>
+
+<script define:vars={{ initialTransparent: transparent }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const header = document.getElementById('main-header');
+    const logoText = document.getElementById('logo-text');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileBackdrop = document.getElementById('mobile-menu-backdrop');
+    
+    // Adjust colors based on scroll
+    const updateHeaderStyle = () => {
+      if (!initialTransparent) return; // Always solid
+      
+      if (window.scrollY > 100) {
+        header.classList.remove('bg-transparent', 'py-6');
+        header.classList.add('bg-white', 'shadow-sm', 'py-4');
+        logoText.classList.remove('text-white');
+        logoText.classList.add('text-navy');
+        navLinks.forEach(link => {
+          link.classList.remove('text-white');
+          link.classList.add('text-navy');
+        });
+        mobileBtn.classList.remove('text-white');
+        mobileBtn.classList.add('text-navy');
+      } else {
+        header.classList.add('bg-transparent', 'py-6');
+        header.classList.remove('bg-white', 'shadow-sm', 'py-4');
+        logoText.classList.add('text-white');
+        logoText.classList.remove('text-navy');
+        navLinks.forEach(link => {
+          link.classList.add('text-white');
+          link.classList.remove('text-navy');
+        });
+        mobileBtn.classList.add('text-white');
+        mobileBtn.classList.remove('text-navy');
+      }
+    };
+
+    // Scroll listener
+    window.addEventListener('scroll', updateHeaderStyle, { passive: true });
+
+    // Mobile menu toggle
+    let isMenuOpen = false;
+    const toggleMenu = () => {
+      isMenuOpen = !isMenuOpen;
+      if (isMenuOpen) {
+        mobileMenu.classList.remove('translate-x-full');
+        mobileBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+        mobileBackdrop.classList.add('opacity-100');
+        // Animate hamburger to X
+        const spans = mobileBtn.querySelectorAll('span');
+        spans[0].style.transform = 'translateY(8px) rotate(45deg)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'translateY(-8px) rotate(-45deg)';
+      } else {
+        mobileMenu.classList.add('translate-x-full');
+        mobileBackdrop.classList.remove('opacity-100');
+        mobileBackdrop.classList.add('opacity-0', 'pointer-events-none');
+        // Revert hamburger
+        const spans = mobileBtn.querySelectorAll('span');
+        spans[0].style.transform = 'none';
+        spans[1].style.opacity = '1';
+        spans[2].style.transform = 'none';
+      }
+    };
+
+    mobileBtn.addEventListener('click', toggleMenu);
+    mobileBackdrop.addEventListener('click', toggleMenu);
+
+    // Auto-close menu on link click
+    document.querySelectorAll('#mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => { if (isMenuOpen) toggleMenu(); });
+    });
+  });
+</script>

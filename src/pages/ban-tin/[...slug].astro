@@ -1,0 +1,152 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const newsletters = await getCollection('newsletters');
+  return newsletters.map(entry => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const formattedDate = new Intl.DateTimeFormat('vi-VN', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+}).format(entry.data.date);
+---
+
+<BaseLayout title={`${entry.data.title} | SP Advisory`} description={entry.data.description} transparentHeader={false}>
+  <main class="max-w-[960px] mx-auto px-6 py-20 md:py-32">
+    <a 
+      href="/ban-tin" 
+      class="inline-flex items-center text-sm font-medium text-[#6B7280] hover:text-[#C5A55A] transition-colors mb-12"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+      </svg>
+      Trở về danh sách Bản tin
+    </a>
+
+    <header class="mb-14 text-center">
+      <div class="flex items-center justify-center gap-3 mb-6">
+        <span class={`px-3 py-1 text-xs font-medium rounded-full border ${
+          entry.data.type === 'weekly' 
+            ? 'border-[#C5A55A] text-[#C5A55A]' 
+            : 'border-[#0A1628] text-[#0A1628]'
+        }`}>
+          {entry.data.type === 'weekly' ? 'Bản tin tuần' : 'Phân tích sâu'}
+        </span>
+        <time datetime={entry.data.date.toISOString()} class="text-sm text-[#6B7280] font-sans">
+          {formattedDate}
+        </time>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-serif font-semibold text-[#0A1628] leading-tight mb-6">
+        {entry.data.title}
+      </h1>
+      <p class="text-lg text-[#6B7280] font-sans leading-relaxed">
+        {entry.data.description}
+      </p>
+    </header>
+
+    <div class="h-px w-full bg-[#0A1628]/10 mb-14"></div>
+
+    <article class="article-content">
+      <Content />
+    </article>
+  </main>
+</BaseLayout>
+
+<style is:global>
+  .article-content h2 {
+    font-family: var(--font-serif);
+    color: #0A1628;
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(10, 22, 40, 0.08);
+  }
+
+  .article-content h3 {
+    font-family: var(--font-serif);
+    color: #0A1628;
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .article-content p {
+    font-family: var(--font-sans);
+    color: #374151;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    margin-bottom: 1.5rem;
+  }
+
+  .article-content ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .article-content ul li {
+    font-family: var(--font-sans);
+    color: #374151;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    margin-bottom: 0.75rem;
+    padding-left: 0.25rem;
+  }
+
+  .article-content ul li::marker {
+    color: #C5A55A;
+  }
+
+  .article-content a {
+    color: #C5A55A;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .article-content a:hover {
+    color: #8B7A3E;
+    text-decoration: underline;
+  }
+
+  .article-content strong {
+    color: #0A1628;
+    font-weight: 600;
+  }
+
+  .article-content em {
+    color: #6B7280;
+  }
+
+  .article-content hr {
+    border: none;
+    border-top: 1px solid rgba(10, 22, 40, 0.1);
+    margin: 2.5rem 0;
+  }
+
+  .article-content blockquote {
+    border-left: 3px solid #C5A55A;
+    padding-left: 1.25rem;
+    margin: 2rem 0;
+    color: #6B7280;
+    font-style: italic;
+  }
+
+  @media (min-width: 768px) {
+    .article-content h2 { font-size: 2rem; }
+    .article-content h3 { font-size: 1.5rem; }
+    .article-content p,
+    .article-content ul li { font-size: 1.125rem; }
+  }
+</style>

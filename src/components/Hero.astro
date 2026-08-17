@@ -1,0 +1,62 @@
+---
+import heroPattern from '../assets/svg/hero-pattern.svg?raw';
+---
+
+<section class="min-h-screen flex flex-col md:flex-row overflow-hidden relative">
+  <!-- Left Side (White) -->
+  <div class="w-full md:w-1/2 bg-[#FAFAFA] flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24 md:py-0 z-10 fade-in-section">
+    <h1 class="text-[#0A1628] font-serif leading-tight mb-2 text-4xl md:text-5xl lg:text-6xl">
+      S-Partners<br />
+      <span class="text-3xl md:text-4xl lg:text-5xl">Advisory Company</span>
+    </h1>
+    
+    <p class="text-[#C5A55A] font-serif italic text-lg md:text-xl tracking-wider mb-12 mt-6">
+      Precision. Privacy. Performance.
+    </p>
+    
+    <div>
+      <a 
+        href="/lien-he" 
+        class="inline-block border border-[#0A1628] text-[#0A1628] uppercase text-[13px] tracking-[0.08em] px-8 py-3 transition-all duration-300 hover:bg-[#0A1628] hover:text-[#FAFAFA]"
+      >
+        Liên hệ với chúng tôi
+      </a>
+    </div>
+  </div>
+
+  <!-- Right Side (Navy) -->
+  <div class="w-full md:w-1/2 bg-[#0A1628] flex items-center justify-center p-12 md:p-24 relative overflow-hidden h-[50vh] md:h-auto">
+    <!-- Animated skyline -->
+    <div 
+      class="w-full max-w-[400px] md:max-w-[500px] skyline-wrapper"
+      set:html={heroPattern}
+    />
+  </div>
+</section>
+
+<style>
+  @media (prefers-reduced-motion: no-preference) {
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1s ease-out forwards;
+      animation-delay: 0.2s;
+    }
+
+    .skyline-wrapper {
+      animation: float 12s ease-in-out infinite alternate;
+    }
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0) translateX(0); }
+    100% { transform: translateY(-10px) translateX(6px); }
+  }
+</style>
