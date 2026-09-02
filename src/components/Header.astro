@@ -1,51 +1,56 @@
 ---
 interface Props {
   transparent?: boolean;
-  lang?: 'vi' | 'en';
+  lang?: 'en' | 'vi';
 }
 
-const { transparent = true, lang = 'vi' } = Astro.props;
+const { transparent = true, lang = 'en' } = Astro.props;
 const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 
 // Nav links based on language
-const navItems = lang === 'vi' 
+const navItems = lang === 'en'
   ? [
-      { label: 'Trang chủ', href: '/' },
-      { label: 'Dịch vụ', href: '/dich-vu' },
-      { label: 'Về chúng tôi', href: '/ve-chung-toi' },
-      { label: 'Bản tin', href: '/ban-tin' },
-      { label: 'Liên hệ', href: '/lien-he' },
+      { label: 'Home', href: '/' },
+      { label: 'Services', href: '/services' },
+      { label: 'About Us', href: '/about-us' },
+      { label: 'News', href: '/news' },
+      { label: 'Contact', href: '/contact' },
     ]
   : [
-      { label: 'Home', href: '/en' },
-      { label: 'Services', href: '/en/services' },
-      { label: 'About Us', href: '/en/about-us' },
-      { label: 'News', href: '/en/news' },
-      { label: 'Contact', href: '/en/contact' },
+      { label: 'Trang chủ', href: '/vi' },
+      { label: 'Dịch vụ', href: '/vi/dich-vu' },
+      { label: 'Về chúng tôi', href: '/vi/ve-chung-toi' },
+      { label: 'Bản tin', href: '/vi/ban-tin' },
+      { label: 'Liên hệ', href: '/vi/lien-he' },
     ];
 
 // Compute corresponding counterpart URL for language switcher
-let viUrl = '/';
-let enUrl = '/en';
+let enUrl = '/';
+let viUrl = '/vi';
 
-if (lang === 'vi') {
-  if (currentPath === '/' || currentPath === '') enUrl = '/en';
-  else if (currentPath.startsWith('/dich-vu')) enUrl = '/en/services';
-  else if (currentPath.startsWith('/ve-chung-toi')) enUrl = '/en/about-us';
-  else if (currentPath.startsWith('/ban-tin/')) enUrl = currentPath.replace('/ban-tin/', '/en/news/');
-  else if (currentPath.startsWith('/ban-tin')) enUrl = '/en/news';
-  else if (currentPath.startsWith('/lien-he')) enUrl = '/en/contact';
-  else enUrl = '/en';
-  viUrl = currentPath;
-} else {
-  if (currentPath === '/en' || currentPath === '/en/') viUrl = '/';
-  else if (currentPath.startsWith('/en/services')) viUrl = '/dich-vu';
-  else if (currentPath.startsWith('/en/about-us')) viUrl = '/ve-chung-toi';
-  else if (currentPath.startsWith('/en/news/')) viUrl = currentPath.replace('/en/news/', '/ban-tin/');
-  else if (currentPath.startsWith('/en/news')) viUrl = '/ban-tin';
-  else if (currentPath.startsWith('/en/contact')) viUrl = '/lien-he';
-  else viUrl = '/';
+if (lang === 'en') {
+  if (currentPath === '/' || currentPath === '') viUrl = '/vi';
+  else if (currentPath.startsWith('/services')) viUrl = '/vi/dich-vu';
+  else if (currentPath.startsWith('/about-us')) viUrl = '/vi/ve-chung-toi';
+  else if (currentPath.startsWith('/news/')) viUrl = currentPath.replace('/news/', '/vi/ban-tin/');
+  else if (currentPath.startsWith('/news')) viUrl = '/vi/ban-tin';
+  else if (currentPath.startsWith('/contact')) viUrl = '/vi/lien-he';
+  else viUrl = '/vi';
   enUrl = currentPath;
+} else {
+  if (currentPath === '/vi' || currentPath === '/vi/') enUrl = '/';
+  else if (currentPath.startsWith('/vi/dich-vu')) enUrl = '/services';
+  else if (currentPath.startsWith('/vi/ve-chung-toi')) enUrl = '/about-us';
+  else if (currentPath.startsWith('/vi/ban-tin/')) enUrl = currentPath.replace('/vi/ban-tin/', '/news/');
+  else if (currentPath.startsWith('/vi/ban-tin')) enUrl = '/news';
+  else if (currentPath.startsWith('/vi/lien-he')) enUrl = '/contact';
+  else if (currentPath.startsWith('/dich-vu')) enUrl = '/services';
+  else if (currentPath.startsWith('/ve-chung-toi')) enUrl = '/about-us';
+  else if (currentPath.startsWith('/ban-tin/')) enUrl = currentPath.replace('/ban-tin/', '/news/');
+  else if (currentPath.startsWith('/ban-tin')) enUrl = '/news';
+  else if (currentPath.startsWith('/lien-he')) enUrl = '/contact';
+  else enUrl = '/';
+  viUrl = currentPath;
 }
 ---
 
@@ -57,7 +62,7 @@ if (lang === 'vi') {
   ]}
 >
   <div class="container mx-auto px-4 flex justify-between items-center">
-    <a href={lang === 'vi' ? '/' : '/en'} class="flex flex-col">
+    <a href={lang === 'en' ? '/' : '/vi'} class="flex flex-col">
       <span class:list={["font-serif text-2xl font-semibold tracking-wide transition-colors duration-300", { "text-white": transparent, "text-navy": !transparent }]} id="logo-text">S-Partners</span>
       <span class="font-sans text-[10px] uppercase tracking-widest text-gray-500">Advisory Company</span>
     </a>
@@ -99,7 +104,7 @@ if (lang === 'vi') {
             <line x1="2" y1="12" x2="22" y2="12"></line>
             <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
           </svg>
-          <span class="font-sans uppercase text-xs">{lang === 'vi' ? 'VI' : 'EN'}</span>
+          <span class="font-sans uppercase text-xs">{lang === 'en' ? 'EN' : 'VI'}</span>
           <svg id="lang-chevron" class="w-2.5 h-2.5 transition-transform duration-200 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
           </svg>
@@ -110,29 +115,6 @@ if (lang === 'vi') {
           id="lang-dropdown-menu"
           class="hidden absolute right-0 top-full mt-2 w-44 bg-white border border-navy/10 rounded-xl shadow-xl py-1.5 z-50 transform origin-top-right transition-all duration-200 font-sans"
         >
-          <!-- Vietnamese Option -->
-          <a 
-            href={viUrl}
-            class:list={[
-              "flex items-center justify-between px-3.5 py-2 text-xs transition-colors duration-150",
-              lang === 'vi' ? "bg-gold/10 text-navy font-semibold" : "text-gray-700 hover:bg-gray-50 hover:text-gold"
-            ]}
-          >
-            <div class="flex items-center gap-2.5">
-              <!-- Vietnam SVG Flag -->
-              <svg class="w-4 h-2.5 rounded-[2px] shadow-2xs shrink-0" viewBox="0 0 30 20" fill="none">
-                <rect width="30" height="20" fill="#DA251D"/>
-                <polygon points="15,4 17.35,11.24 11.2,6.76 18.8,6.76 12.65,11.24" fill="#FFFF00"/>
-              </svg>
-              <span>Tiếng Việt</span>
-            </div>
-            {lang === 'vi' && (
-              <svg class="w-3.5 h-3.5 text-gold shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
-              </svg>
-            )}
-          </a>
-
           <!-- English Option -->
           <a 
             href={enUrl}
@@ -153,6 +135,29 @@ if (lang === 'vi') {
               <span>English</span>
             </div>
             {lang === 'en' && (
+              <svg class="w-3.5 h-3.5 text-gold shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+              </svg>
+            )}
+          </a>
+
+          <!-- Vietnamese Option -->
+          <a 
+            href={viUrl}
+            class:list={[
+              "flex items-center justify-between px-3.5 py-2 text-xs transition-colors duration-150",
+              lang === 'vi' ? "bg-gold/10 text-navy font-semibold" : "text-gray-700 hover:bg-gray-50 hover:text-gold"
+            ]}
+          >
+            <div class="flex items-center gap-2.5">
+              <!-- Vietnam SVG Flag -->
+              <svg class="w-4 h-2.5 rounded-[2px] shadow-2xs shrink-0" viewBox="0 0 30 20" fill="none">
+                <rect width="30" height="20" fill="#DA251D"/>
+                <polygon points="15,4 17.35,11.24 11.2,6.76 18.8,6.76 12.65,11.24" fill="#FFFF00"/>
+              </svg>
+              <span>Tiếng Việt</span>
+            </div>
+            {lang === 'vi' && (
               <svg class="w-3.5 h-3.5 text-gold shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
               </svg>
@@ -184,7 +189,7 @@ if (lang === 'vi') {
             <line x1="2" y1="12" x2="22" y2="12"></line>
             <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
           </svg>
-          <span class="font-sans uppercase text-[11px]">{lang === 'vi' ? 'VI' : 'EN'}</span>
+          <span class="font-sans uppercase text-[11px]">{lang === 'en' ? 'EN' : 'VI'}</span>
         </button>
 
         <!-- Mobile Dropdown Menu -->
@@ -192,23 +197,6 @@ if (lang === 'vi') {
           id="lang-dropdown-mobile-menu"
           class="hidden absolute right-0 top-full mt-2 w-40 bg-white border border-navy/10 rounded-xl shadow-xl py-1.5 z-50 font-sans"
         >
-          <a 
-            href={viUrl}
-            class:list={[
-              "flex items-center justify-between px-3 py-1.5 text-xs",
-              lang === 'vi' ? "bg-gold/10 text-navy font-semibold" : "text-gray-700 hover:bg-gray-50"
-            ]}
-          >
-            <div class="flex items-center gap-2">
-              <svg class="w-3.5 h-2.5 rounded-[1px] shrink-0" viewBox="0 0 30 20" fill="none">
-                <rect width="30" height="20" fill="#DA251D"/>
-                <polygon points="15,4 17.35,11.24 11.2,6.76 18.8,6.76 12.65,11.24" fill="#FFFF00"/>
-              </svg>
-              <span>Tiếng Việt</span>
-            </div>
-            {lang === 'vi' && <span class="text-gold font-bold text-xs">✓</span>}
-          </a>
-
           <a 
             href={enUrl}
             class:list={[
@@ -227,6 +215,23 @@ if (lang === 'vi') {
               <span>English</span>
             </div>
             {lang === 'en' && <span class="text-gold font-bold text-xs">✓</span>}
+          </a>
+
+          <a 
+            href={viUrl}
+            class:list={[
+              "flex items-center justify-between px-3 py-1.5 text-xs",
+              lang === 'vi' ? "bg-gold/10 text-navy font-semibold" : "text-gray-700 hover:bg-gray-50"
+            ]}
+          >
+            <div class="flex items-center gap-2">
+              <svg class="w-3.5 h-2.5 rounded-[1px] shrink-0" viewBox="0 0 30 20" fill="none">
+                <rect width="30" height="20" fill="#DA251D"/>
+                <polygon points="15,4 17.35,11.24 11.2,6.76 18.8,6.76 12.65,11.24" fill="#FFFF00"/>
+              </svg>
+              <span>Tiếng Việt</span>
+            </div>
+            {lang === 'vi' && <span class="text-gold font-bold text-xs">✓</span>}
           </a>
         </div>
       </div>
@@ -253,28 +258,9 @@ if (lang === 'vi') {
     <!-- Mobile Drawer Language List with Flags -->
     <div class="pt-6 border-t border-navy/10 space-y-3">
       <span class="font-sans text-[11px] uppercase tracking-wider text-gray-500 block mb-2">
-        {lang === 'vi' ? 'Chọn ngôn ngữ' : 'Select Language'}
+        {lang === 'en' ? 'Select Language' : 'Chọn ngôn ngữ'}
       </span>
       <div class="flex flex-col space-y-2">
-        <a 
-          href={viUrl} 
-          class:list={[
-            "flex items-center justify-between px-3 py-2 rounded-lg border text-xs font-sans transition-all duration-200",
-            lang === 'vi' 
-              ? "border-gold bg-gold/10 text-navy font-semibold" 
-              : "border-gray-200 text-gray-700 hover:border-gold hover:text-gold"
-          ]}
-        >
-          <div class="flex items-center gap-2.5">
-            <svg class="w-4 h-2.5 rounded-[1px] shadow-2xs shrink-0" viewBox="0 0 30 20" fill="none">
-              <rect width="30" height="20" fill="#DA251D"/>
-              <polygon points="15,4 17.35,11.24 11.2,6.76 18.8,6.76 12.65,11.24" fill="#FFFF00"/>
-            </svg>
-            <span>Tiếng Việt</span>
-          </div>
-          {lang === 'vi' && <span class="text-gold font-bold">✓</span>}
-        </a>
-
         <a 
           href={enUrl} 
           class:list={[
@@ -295,6 +281,25 @@ if (lang === 'vi') {
             <span>English</span>
           </div>
           {lang === 'en' && <span class="text-gold font-bold">✓</span>}
+        </a>
+
+        <a 
+          href={viUrl} 
+          class:list={[
+            "flex items-center justify-between px-3 py-2 rounded-lg border text-xs font-sans transition-all duration-200",
+            lang === 'vi' 
+              ? "border-gold bg-gold/10 text-navy font-semibold" 
+              : "border-gray-200 text-gray-700 hover:border-gold hover:text-gold"
+          ]}
+        >
+          <div class="flex items-center gap-2.5">
+            <svg class="w-4 h-2.5 rounded-[1px] shadow-2xs shrink-0" viewBox="0 0 30 20" fill="none">
+              <rect width="30" height="20" fill="#DA251D"/>
+              <polygon points="15,4 17.35,11.24 11.2,6.76 18.8,6.76 12.65,11.24" fill="#FFFF00"/>
+            </svg>
+            <span>Tiếng Việt</span>
+          </div>
+          {lang === 'vi' && <span class="text-gold font-bold">✓</span>}
         </a>
       </div>
     </div>

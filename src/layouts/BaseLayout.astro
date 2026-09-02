@@ -9,7 +9,7 @@ interface Props {
   description: string;
   ogImage?: string;
   transparentHeader?: boolean;
-  lang?: 'vi' | 'en';
+  lang?: 'en' | 'vi';
 }
 
 const { 
@@ -17,7 +17,7 @@ const {
   description, 
   ogImage = '/images/og-default.jpg',
   transparentHeader = false,
-  lang = 'vi'
+  lang = 'en'
 } = Astro.props;
 ---
 

@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout 
+  title="About Us — SP Advisory" 
+  description="Senior advisory team from Big Four and global investment banks. Boutique advisory — Precision. Privacy. Performance."
+  lang="en"
+>
+  <main class="bg-[#FAFAFA] min-h-screen pt-36 pb-20">
+    <div class="max-w-[1200px] mx-auto px-6 md:px-12">
+      <!-- Story Section -->
+      <section class="max-w-[800px] mb-24 animate-fade-in-up">
+        <h1 class="font-serif text-5xl md:text-6xl text-[#0A1628] leading-tight mb-10">Our Story</h1>
+        <div class="space-y-6 font-sans text-lg text-[#0A1628]/80 leading-relaxed font-light">
+          <p>
+            SP Advisory is an independent advisory firm specializing in corporate finance and transaction execution, founded by seasoned leaders from Big Four advisory firms, international banks, and premier financial institutions.
+          </p>
+          <p>
+            Operating under a <em class="text-[#0A1628] not-italic font-medium">boutique advisory model</em>, we emphasize practical, high-conviction execution. Every engagement is directly led and delivered by senior partners, ensuring unmatched responsiveness, rigor, and strategic impact for our clients.
+          </p>
+          <div class="pt-4">
+            <strong class="font-serif text-2xl text-[#C5A55A] font-normal block mb-2">Our Distinct Edge</strong>
+            SP Advisory uniquely integrates transaction execution, corporate finance, and strategic tax advisory into a unified multidisciplinary platform — delivering a comprehensive, 360-degree perspective on complex corporate decisions.
+          </div>
+        </div>
+      </section>
+
+      <!-- Core Values -->
+      <section class="mb-32">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="border-t-2 border-[#C5A55A] pt-6">
+            <h3 class="font-serif text-2xl text-[#0A1628] mb-3">Precision</h3>
+            <p class="font-sans text-[#0A1628]/70 text-sm">Uncompromising accuracy and depth in all financial analytics and valuations.</p>
+          </div>
+          <div class="border-t-2 border-[#C5A55A] pt-6">
+            <h3 class="font-serif text-2xl text-[#0A1628] mb-3">Privacy</h3>
+            <p class="font-sans text-[#0A1628]/70 text-sm">Absolute confidentiality and discretion protecting client interests and transactions.</p>
+          </div>
+          <div class="border-t-2 border-[#C5A55A] pt-6">
+            <h3 class="font-serif text-2xl text-[#0A1628] mb-3">Performance</h3>
+            <p class="font-sans text-[#0A1628]/70 text-sm">Laser-focused on tangible, measurable, and long-term value creation.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Team Section -->
+      <section>
+        <h2 class="font-serif text-4xl text-[#0A1628] mb-16 text-center">Leadership Team</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto">
+          
+          <!-- Hung Nguyen -->
+          <div class="bg-white p-8 border border-[#0A1628]/5 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col md:flex-row gap-8 items-start group">
+            <div class="flex-shrink-0 w-24 h-24 bg-[#0A1628] text-[#C5A55A] flex items-center justify-center font-serif text-4xl group-hover:bg-[#C5A55A] group-hover:text-white transition-colors duration-300">
+              HN
+            </div>
+            <div>
+              <h3 class="font-serif text-2xl text-[#0A1628] mb-1">Hung Nguyen</h3>
+              <p class="font-sans text-sm text-[#C5A55A] mb-4">Managing Director<br/>Head of Corporate Finance | M&A | Financial Due Diligence</p>
+              <ul class="font-sans text-sm text-[#0A1628]/70 space-y-2 list-disc list-inside">
+                <li>15+ years of transaction & investment banking experience</li>
+                <li>Ex-Hyperion Investment Advisory, KPMG Deal Advisory, Techcombank</li>
+                <li>MBA Texas Christian University (USA)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Tung Nguyen -->
+          <div class="bg-white p-8 border border-[#0A1628]/5 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col md:flex-row gap-8 items-start group">
+            <div class="flex-shrink-0 w-24 h-24 bg-[#0A1628] text-[#C5A55A] flex items-center justify-center font-serif text-4xl group-hover:bg-[#C5A55A] group-hover:text-white transition-colors duration-300">
+              TN
+            </div>
+            <div>
+              <h3 class="font-serif text-2xl text-[#0A1628] mb-1">Tung Nguyen, CFA</h3>
+              <p class="font-sans text-sm text-[#C5A55A] mb-4">Partner, Valuation & Financial Modelling</p>
+              <ul class="font-sans text-sm text-[#0A1628]/70 space-y-2 list-disc list-inside">
+                <li>10+ years in corporate finance & deal advisory</li>
+                <li>Ex-KPMG Deal Advisory, Techcombank, FPT Securities</li>
+                <li>CFA Charterholder</li>
+                <li>MSc Leicester (UK), MSc Trier (Germany)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+  </main>
+</BaseLayout>
