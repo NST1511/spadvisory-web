@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import NewsletterCard from '../../../components/NewsletterCard.astro';
+import { getCollection } from 'astro:content';
+
+const allNewsletters = await getCollection('newsletters', ({ data }) => !data.draft);
+const sorted = allNewsletters.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout 
+  title="Market Insights & News — SP Advisory" 
+  description="Strategic market analysis, macroeconomic updates, and valuation perspectives from S-Partners Advisory."
+  lang="en"
+>
+  <section class="pt-36 pb-24 md:pb-32">
+    <div class="max-w-[1200px] mx-auto px-6 md:px-12">
+      <!-- Heading -->
+      <div class="mb-16 md:mb-24">
+        <h1 class="font-serif text-4xl md:text-5xl text-[#0A1628] mb-4">Market Insights & News</h1>
+        <p class="font-sans text-lg text-[#6B7280] max-w-[600px]">
+          In-depth market analysis, macroeconomic commentaries, and financial perspectives from S-Partners Advisory.
+        </p>
+        <div class="w-16 h-[2px] bg-[#C5A55A] mt-6"></div>
+      </div>
+
+      <!-- Newsletter grid -->
+      {sorted.length > 0 ? (
+        <div class="grid gap-8 md:gap-10">
+          {sorted.map((newsletter) => (
+            <NewsletterCard
+              title={newsletter.data.title}
+              date={newsletter.data.date}
+              description={newsletter.data.description}
+              type={newsletter.data.type}
+              slug={newsletter.id}
+              lang="en"
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="text-[#6B7280] font-sans text-lg">No articles published yet.</p>
+      )}
+    </div>
+  </section>
+</BaseLayout>

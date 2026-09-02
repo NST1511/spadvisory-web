@@ -1,4 +1,9 @@
 ---
+interface Props {
+  lang?: 'vi' | 'en';
+}
+
+const { lang = 'vi' } = Astro.props;
 ---
 
 <footer class="bg-navy w-full border-t border-gold relative">
@@ -12,29 +17,57 @@
 
       <!-- Column 2 -->
       <div>
-        <h4 class="font-serif text-white text-lg font-medium mb-4">Dịch vụ</h4>
+        <h4 class="font-serif text-white text-lg font-medium mb-4">
+          {lang === 'vi' ? 'Dịch vụ' : 'Services'}
+        </h4>
         <ul class="space-y-3 text-sm text-gray-300">
-          <li><a href="/dich-vu#tu-van-thue" class="hover:text-gold transition-colors duration-200">Tư vấn thuế</a></li>
-          <li><a href="/dich-vu#tai-chinh-doanh-nghiep" class="hover:text-gold transition-colors duration-200">Tài chính doanh nghiệp</a></li>
-          <li><a href="/dich-vu#huy-dong-von-ma" class="hover:text-gold transition-colors duration-200">M&A</a></li>
+          <li>
+            <a href={lang === 'vi' ? '/dich-vu#tu-van-thue' : '/en/services#tu-van-thue'} class="hover:text-gold transition-colors duration-200">
+              {lang === 'vi' ? 'Tư vấn thuế' : 'Tax Advisory'}
+            </a>
+          </li>
+          <li>
+            <a href={lang === 'vi' ? '/dich-vu#tai-chinh-doanh-nghiep' : '/en/services#tai-chinh-doanh-nghiep'} class="hover:text-gold transition-colors duration-200">
+              {lang === 'vi' ? 'Tài chính doanh nghiệp' : 'Corporate Finance'}
+            </a>
+          </li>
+          <li>
+            <a href={lang === 'vi' ? '/dich-vu#huy-dong-von-ma' : '/en/services#huy-dong-von-ma'} class="hover:text-gold transition-colors duration-200">
+              {lang === 'vi' ? 'M&A' : 'M&A Advisory'}
+            </a>
+          </li>
         </ul>
       </div>
 
       <!-- Column 3 -->
       <div>
-        <h4 class="font-serif text-white text-lg font-medium mb-4">Liên hệ</h4>
+        <h4 class="font-serif text-white text-lg font-medium mb-4">
+          {lang === 'vi' ? 'Liên hệ' : 'Contact'}
+        </h4>
         <ul class="space-y-3 text-sm text-gray-300">
           <li><a href="mailto:admin@spadvisory.com.vn" class="hover:text-gold transition-colors duration-200">admin@spadvisory.com.vn</a></li>
           <li><a href="tel:+84964008304" class="hover:text-gold transition-colors duration-200">(+84) 964 008 304</a></li>
-          <li class="leading-relaxed">BT2D-19, Khu đô thị Mỗ Lao,<br>quận Hà Đông, Hà Nội,<br>Việt Nam</li>
+          <li class="leading-relaxed">
+            {lang === 'vi' ? (
+              <>BT2D-19, Khu đô thị Mỗ Lao,<br/>quận Hà Đông, Hà Nội,<br/>Việt Nam</>
+            ) : (
+              <>BT2D-19, Mo Lao Urban Area,<br/>Ha Dong District, Hanoi,<br/>Vietnam</>
+            )}
+          </li>
         </ul>
       </div>
 
       <!-- Column 4 -->
       <div>
-        <h4 class="font-serif text-white text-lg font-medium mb-4">Pháp lý</h4>
+        <h4 class="font-serif text-white text-lg font-medium mb-4">
+          {lang === 'vi' ? 'Pháp lý' : 'Legal'}
+        </h4>
         <p class="text-sm text-gray-300 leading-relaxed">
-          Thông tin trên trang web này chỉ mang tính chất tham khảo chung, không cấu thành lời khuyên chuyên môn về tài chính hay pháp lý.
+          {lang === 'vi' ? (
+            'Thông tin trên trang web này chỉ mang tính chất tham khảo chung, không cấu thành lời khuyên chuyên môn về tài chính hay pháp lý.'
+          ) : (
+            'The information on this website is for general reference purposes only and does not constitute professional financial or legal advice.'
+          )}
         </p>
       </div>
     </div>
@@ -44,7 +77,11 @@
   <div class="border-t border-white/10">
     <div class="container mx-auto px-4 py-6 flex flex-col md:flex-row items-center justify-between">
       <p class="text-xs text-gray-400">
-        &copy; 2026 S-Partners Advisory Company. Bảo lưu mọi quyền.
+        {lang === 'vi' ? (
+          <>&copy; 2026 S-Partners Advisory Company. Bảo lưu mọi quyền.</>
+        ) : (
+          <>&copy; 2026 S-Partners Advisory Company. All rights reserved.</>
+        )}
       </p>
     </div>
   </div>

@@ -1,29 +1,30 @@
 ---
-import type { CollectionEntry } from 'astro:content';
-
 interface Props {
   title: string;
   date: Date;
   description: string;
   type: 'weekly' | 'deep-dive';
   slug: string;
+  lang?: 'vi' | 'en';
 }
 
-const { title, date, description, type, slug } = Astro.props;
+const { title, date, description, type, slug, lang = 'vi' } = Astro.props;
 
-const formattedDate = date.toLocaleDateString('vi-VN', {
+const formattedDate = date.toLocaleDateString(lang === 'vi' ? 'vi-VN' : 'en-US', {
   day: 'numeric',
   month: 'long',
   year: 'numeric',
 });
 
 const typeBadge = type === 'weekly'
-  ? { label: 'Hàng tuần', borderColor: 'border-[#C5A55A] text-[#C5A55A]' }
-  : { label: 'Chuyên sâu', borderColor: 'border-[#0A1628] text-[#0A1628]' };
+  ? { label: lang === 'vi' ? 'Hàng tuần' : 'Weekly', borderColor: 'border-[#C5A55A] text-[#C5A55A]' }
+  : { label: lang === 'vi' ? 'Chuyên sâu' : 'Deep Dive', borderColor: 'border-[#0A1628] text-[#0A1628]' };
+
+const href = lang === 'vi' ? `/ban-tin/${slug}` : `/en/news/${slug}`;
 ---
 
 <a
-  href={`/ban-tin/${slug}`}
+  href={href}
   class="group block border border-[#0A1628]/10 p-8 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
 >
   <div class="flex items-center gap-3 mb-4">
@@ -42,7 +43,7 @@ const typeBadge = type === 'weekly'
   </p>
 
   <div class="mt-6 flex items-center gap-2 text-[#0A1628] text-sm font-sans uppercase tracking-[0.05em] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-    Đọc tiếp
+    {lang === 'vi' ? 'Đọc tiếp' : 'Read article'}
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
     </svg>

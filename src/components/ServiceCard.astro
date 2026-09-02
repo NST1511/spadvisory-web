@@ -3,9 +3,10 @@ interface Props {
   title: string;
   description: string;
   href?: string;
+  lang?: 'vi' | 'en';
 }
 
-const { title, description, href } = Astro.props;
+const { title, description, href, lang = 'vi' } = Astro.props;
 const Tag = href ? 'a' : 'div';
 ---
 
@@ -22,7 +23,9 @@ const Tag = href ? 'a' : 'div';
   
   {href && (
     <div class="mt-8 flex items-center text-[#C5A55A] opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
-      <span class="text-sm uppercase tracking-wider mr-2">Tìm hiểu thêm</span>
+      <span class="text-sm uppercase tracking-wider mr-2">
+        {lang === 'vi' ? 'Tìm hiểu thêm' : 'Learn more'}
+      </span>
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <line x1="5" y1="12" x2="19" y2="12"></line>
         <polyline points="12 5 19 12 12 19"></polyline>

@@ -1,5 +1,11 @@
 ---
 import heroPattern from '../assets/svg/hero-pattern.svg?raw';
+
+interface Props {
+  lang?: 'vi' | 'en';
+}
+
+const { lang = 'vi' } = Astro.props;
 ---
 
 <section class="min-h-screen flex flex-col md:flex-row overflow-hidden relative">
@@ -16,10 +22,10 @@ import heroPattern from '../assets/svg/hero-pattern.svg?raw';
     
     <div>
       <a 
-        href="/lien-he" 
+        href={lang === 'vi' ? '/lien-he' : '/en/contact'} 
         class="inline-block border border-[#0A1628] text-[#0A1628] uppercase text-[13px] tracking-[0.08em] px-8 py-3 transition-all duration-300 hover:bg-[#0A1628] hover:text-[#FAFAFA]"
       >
-        Liên hệ với chúng tôi
+        {lang === 'vi' ? 'Liên hệ với chúng tôi' : 'Contact Us'}
       </a>
     </div>
   </div>
