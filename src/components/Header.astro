@@ -58,13 +58,12 @@ if (lang === 'en') {
   id="main-header" 
   class:list={[
     "fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
-    { "bg-transparent py-6": transparent, "bg-white shadow-sm py-4": !transparent }
+    { "bg-transparent py-3 md:py-6": transparent, "bg-white shadow-sm py-2 md:py-4": !transparent }
   ]}
 >
   <div class="container mx-auto px-4 flex justify-between items-center">
-    <a href={lang === 'en' ? '/' : '/vi'} class="flex flex-col">
-      <span class:list={["font-serif text-2xl font-semibold tracking-wide transition-colors duration-300", { "text-white": transparent, "text-navy": !transparent }]} id="logo-text">S-Partners</span>
-      <span class="font-sans text-[10px] uppercase tracking-widest text-gray-500">Advisory Company</span>
+    <a href={lang === 'en' ? '/' : '/vi'} class="flex items-center shrink-0" aria-label="S-Partners Advisory Company">
+      <img src="/logo-header.png" alt="S-Partners Advisory Company" class="h-20 w-auto" width="710" height="471" />
     </a>
 
     <!-- Desktop Nav & Language Dropdown -->
@@ -312,7 +311,6 @@ if (lang === 'en') {
 <script define:vars={{ initialTransparent: transparent }}>
   document.addEventListener('DOMContentLoaded', () => {
     const header = document.getElementById('main-header');
-    const logoText = document.getElementById('logo-text');
     const navLinks = document.querySelectorAll('.nav-link');
     const mobileBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
@@ -389,10 +387,8 @@ if (lang === 'en') {
       if (!initialTransparent) return; // Always solid
       
       if (window.scrollY > 100) {
-        header.classList.remove('bg-transparent', 'py-6');
-        header.classList.add('bg-white', 'shadow-sm', 'py-4');
-        logoText.classList.remove('text-white');
-        logoText.classList.add('text-navy');
+        header.classList.remove('bg-transparent', 'py-3', 'md:py-6');
+        header.classList.add('bg-white', 'shadow-sm', 'py-2', 'md:py-4');
         navLinks.forEach(link => {
           link.classList.remove('text-white');
           link.classList.add('text-navy');
@@ -405,10 +401,8 @@ if (lang === 'en') {
           btn.classList.add('border-navy/15', 'text-navy/90', 'bg-transparent');
         });
       } else {
-        header.classList.add('bg-transparent', 'py-6');
-        header.classList.remove('bg-white', 'shadow-sm', 'py-4');
-        logoText.classList.add('text-white');
-        logoText.classList.remove('text-navy');
+        header.classList.add('bg-transparent', 'py-3', 'md:py-6');
+        header.classList.remove('bg-white', 'shadow-sm', 'py-2', 'md:py-4');
         navLinks.forEach(link => {
           link.classList.add('text-white');
           link.classList.remove('text-navy');
