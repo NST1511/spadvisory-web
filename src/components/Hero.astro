@@ -1,6 +1,4 @@
 ---
-import heroPattern from '../assets/svg/hero-pattern.svg?raw';
-
 interface Props {
   lang?: 'vi' | 'en';
 }
@@ -16,8 +14,8 @@ const { lang = 'vi' } = Astro.props;
       <span class="text-3xl md:text-4xl lg:text-5xl">Advisory Company</span>
     </h1>
 
-    <p class="text-[#C5A55A] font-serif italic text-lg md:text-xl tracking-wider mb-12 mt-6">
-      Precision. Privacy. Performance.
+    <p class="text-[#C5A55A] font-serif italic text-lg md:text-xl leading-relaxed mb-12 mt-6 max-w-xl">
+      Connecting global capital with investment opportunities in Vietnam.
     </p>
     
     <div>
@@ -30,12 +28,12 @@ const { lang = 'vi' } = Astro.props;
     </div>
   </div>
 
-  <!-- Right Side (Navy) -->
-  <div class="w-full md:w-1/2 bg-[#0A1628] flex items-center justify-center p-12 md:p-24 relative overflow-hidden h-[50vh] md:h-auto">
-    <!-- Animated skyline -->
-    <div 
-      class="w-full max-w-[400px] md:max-w-[500px] skyline-wrapper"
-      set:html={heroPattern}
+  <!-- Right Side -->
+  <div class="w-full md:w-1/2 relative overflow-hidden h-[42vh] md:h-auto min-h-[280px]">
+    <img
+      src="/images/hero-bg.jpg"
+      alt=""
+      class="absolute inset-0 h-full w-full object-cover"
     />
   </div>
 </section>
@@ -49,9 +47,6 @@ const { lang = 'vi' } = Astro.props;
       animation-delay: 0.2s;
     }
 
-    .skyline-wrapper {
-      animation: float 12s ease-in-out infinite alternate;
-    }
   }
 
   @keyframes fadeInUp {
@@ -61,8 +56,4 @@ const { lang = 'vi' } = Astro.props;
     }
   }
 
-  @keyframes float {
-    0% { transform: translateY(0) translateX(0); }
-    100% { transform: translateY(-10px) translateX(6px); }
-  }
 </style>

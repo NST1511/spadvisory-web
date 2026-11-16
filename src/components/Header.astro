@@ -5,53 +5,13 @@ interface Props {
 }
 
 const { transparent = true, lang = 'en' } = Astro.props;
-const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const navItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: '/services' },
+  { label: 'About Us', href: '/about-us' },
+  { label: 'Contact', href: '/contact' },
+];
 
-// Nav links based on language
-const navItems = lang === 'en'
-  ? [
-      { label: 'Home', href: '/' },
-      { label: 'Services', href: '/services' },
-      { label: 'About Us', href: '/about-us' },
-      { label: 'News', href: '/news' },
-      { label: 'Contact', href: '/contact' },
-    ]
-  : [
-      { label: 'Trang chủ', href: '/vi' },
-      { label: 'Dịch vụ', href: '/vi/dich-vu' },
-      { label: 'Về chúng tôi', href: '/vi/ve-chung-toi' },
-      { label: 'Bản tin', href: '/vi/ban-tin' },
-      { label: 'Liên hệ', href: '/vi/lien-he' },
-    ];
-
-// Compute corresponding counterpart URL for language switcher
-let enUrl = '/';
-let viUrl = '/vi';
-
-if (lang === 'en') {
-  if (currentPath === '/' || currentPath === '') viUrl = '/vi';
-  else if (currentPath.startsWith('/services')) viUrl = '/vi/dich-vu';
-  else if (currentPath.startsWith('/about-us')) viUrl = '/vi/ve-chung-toi';
-  else if (currentPath.startsWith('/news/')) viUrl = currentPath.replace('/news/', '/vi/ban-tin/');
-  else if (currentPath.startsWith('/news')) viUrl = '/vi/ban-tin';
-  else if (currentPath.startsWith('/contact')) viUrl = '/vi/lien-he';
-  else viUrl = '/vi';
-  enUrl = currentPath;
-} else {
-  if (currentPath === '/vi' || currentPath === '/vi/') enUrl = '/';
-  else if (currentPath.startsWith('/vi/dich-vu')) enUrl = '/services';
-  else if (currentPath.startsWith('/vi/ve-chung-toi')) enUrl = '/about-us';
-  else if (currentPath.startsWith('/vi/ban-tin/')) enUrl = currentPath.replace('/vi/ban-tin/', '/news/');
-  else if (currentPath.startsWith('/vi/ban-tin')) enUrl = '/news';
-  else if (currentPath.startsWith('/vi/lien-he')) enUrl = '/contact';
-  else if (currentPath.startsWith('/dich-vu')) enUrl = '/services';
-  else if (currentPath.startsWith('/ve-chung-toi')) enUrl = '/about-us';
-  else if (currentPath.startsWith('/ban-tin/')) enUrl = currentPath.replace('/ban-tin/', '/news/');
-  else if (currentPath.startsWith('/ban-tin')) enUrl = '/news';
-  else if (currentPath.startsWith('/lien-he')) enUrl = '/contact';
-  else enUrl = '/';
-  viUrl = currentPath;
-}
 ---
 
 <header 
@@ -82,159 +42,10 @@ if (lang === 'en') {
         ))}
       </nav>
 
-      <!-- Globe Language Dropdown (Desktop - Compact & Refined) -->
-      <div class="relative" id="lang-dropdown-wrapper">
-        <button 
-          id="lang-dropdown-btn"
-          type="button"
-          aria-expanded="false"
-          aria-haspopup="true"
-          class:list={[
-            "lang-btn inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[13px] font-sans tracking-wide transition-all duration-200 cursor-pointer",
-            { 
-              "border-white/20 text-white/90 hover:border-gold hover:text-gold bg-white/5 backdrop-blur-xs": transparent, 
-              "border-navy/15 text-navy/90 hover:border-gold hover:text-gold bg-transparent": !transparent 
-            }
-          ]}
-        >
-          <!-- Refined small globe icon -->
-          <svg class="w-3.5 h-3.5 shrink-0 opacity-85" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="2" y1="12" x2="22" y2="12"></line>
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-          </svg>
-          <span class="font-sans uppercase text-xs">{lang === 'en' ? 'EN' : 'VI'}</span>
-          <svg id="lang-chevron" class="w-2.5 h-2.5 transition-transform duration-200 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-          </svg>
-        </button>
-
-        <!-- Dropdown Menu -->
-        <div 
-          id="lang-dropdown-menu"
-          class="hidden absolute right-0 top-full mt-2 w-44 bg-white border border-navy/10 rounded-xl shadow-xl py-1.5 z-50 transform origin-top-right transition-all duration-200 font-sans"
-        >
-          <!-- English Option -->
-          <a 
-            href={enUrl}
-            class:list={[
-              "flex items-center justify-between px-3.5 py-2 text-xs transition-colors duration-150",
-              lang === 'en' ? "bg-gold/10 text-navy font-semibold" : "text-gray-700 hover:bg-gray-50 hover:text-gold"
-            ]}
-          >
-            <div class="flex items-center gap-2.5">
-              <!-- UK SVG Flag -->
-              <svg class="w-4 h-2.5 rounded-[2px] shadow-2xs shrink-0" viewBox="0 0 60 40" fill="none">
-                <rect width="60" height="40" fill="#012169"/>
-                <path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="6"/>
-                <path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="4"/>
-                <path d="M30,0 v40 M0,20 h60" stroke="#fff" stroke-width="10"/>
-                <path d="M30,0 v40 M0,20 h60" stroke="#C8102E" stroke-width="6"/>
-              </svg>
-              <span>English</span>
-            </div>
-            {lang === 'en' && (
-              <svg class="w-3.5 h-3.5 text-gold shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
-              </svg>
-            )}
-          </a>
-
-          <!-- Vietnamese Option -->
-          <a 
-            href={viUrl}
-            class:list={[
-              "flex items-center justify-between px-3.5 py-2 text-xs transition-colors duration-150",
-              lang === 'vi' ? "bg-gold/10 text-navy font-semibold" : "text-gray-700 hover:bg-gray-50 hover:text-gold"
-            ]}
-          >
-            <div class="flex items-center gap-2.5">
-              <!-- Vietnam SVG Flag -->
-              <svg class="w-4 h-2.5 rounded-[2px] shadow-2xs shrink-0" viewBox="0 0 30 20" fill="none">
-                <rect width="30" height="20" fill="#DA251D"/>
-                <polygon points="15,4 17.35,11.24 11.2,6.76 18.8,6.76 12.65,11.24" fill="#FFFF00"/>
-              </svg>
-              <span>Tiếng Việt</span>
-            </div>
-            {lang === 'vi' && (
-              <svg class="w-3.5 h-3.5 text-gold shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
-              </svg>
-            )}
-          </a>
-        </div>
-      </div>
     </div>
 
     <!-- Mobile Header Actions -->
     <div class="md:hidden flex items-center space-x-2.5">
-      <!-- Mobile Globe Button (Compact) -->
-      <div class="relative" id="lang-dropdown-mobile-wrapper">
-        <button 
-          id="lang-dropdown-mobile-btn"
-          type="button"
-          aria-expanded="false"
-          aria-label="Change language"
-          class:list={[
-            "lang-btn inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[11px] font-sans transition-all duration-200 cursor-pointer",
-            { 
-              "border-white/20 text-white/90 bg-white/5": transparent, 
-              "border-navy/15 text-navy/90 bg-transparent": !transparent 
-            }
-          ]}
-        >
-          <svg class="w-3 h-3 shrink-0 opacity-85" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="2" y1="12" x2="22" y2="12"></line>
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-          </svg>
-          <span class="font-sans uppercase text-[11px]">{lang === 'en' ? 'EN' : 'VI'}</span>
-        </button>
-
-        <!-- Mobile Dropdown Menu -->
-        <div 
-          id="lang-dropdown-mobile-menu"
-          class="hidden absolute right-0 top-full mt-2 w-40 bg-white border border-navy/10 rounded-xl shadow-xl py-1.5 z-50 font-sans"
-        >
-          <a 
-            href={enUrl}
-            class:list={[
-              "flex items-center justify-between px-3 py-1.5 text-xs",
-              lang === 'en' ? "bg-gold/10 text-navy font-semibold" : "text-gray-700 hover:bg-gray-50"
-            ]}
-          >
-            <div class="flex items-center gap-2">
-              <svg class="w-3.5 h-2.5 rounded-[1px] shrink-0" viewBox="0 0 60 40" fill="none">
-                <rect width="60" height="40" fill="#012169"/>
-                <path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="6"/>
-                <path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="4"/>
-                <path d="M30,0 v40 M0,20 h60" stroke="#fff" stroke-width="10"/>
-                <path d="M30,0 v40 M0,20 h60" stroke="#C8102E" stroke-width="6"/>
-              </svg>
-              <span>English</span>
-            </div>
-            {lang === 'en' && <span class="text-gold font-bold text-xs">✓</span>}
-          </a>
-
-          <a 
-            href={viUrl}
-            class:list={[
-              "flex items-center justify-between px-3 py-1.5 text-xs",
-              lang === 'vi' ? "bg-gold/10 text-navy font-semibold" : "text-gray-700 hover:bg-gray-50"
-            ]}
-          >
-            <div class="flex items-center gap-2">
-              <svg class="w-3.5 h-2.5 rounded-[1px] shrink-0" viewBox="0 0 30 20" fill="none">
-                <rect width="30" height="20" fill="#DA251D"/>
-                <polygon points="15,4 17.35,11.24 11.2,6.76 18.8,6.76 12.65,11.24" fill="#FFFF00"/>
-              </svg>
-              <span>Tiếng Việt</span>
-            </div>
-            {lang === 'vi' && <span class="text-gold font-bold text-xs">✓</span>}
-          </a>
-        </div>
-      </div>
-
       <!-- Mobile menu button -->
       <button id="mobile-menu-btn" aria-label="Menu" class:list={["flex flex-col justify-center items-center w-8 h-8 space-y-1.5 focus:outline-none transition-colors duration-300", { "text-white": transparent, "text-navy": !transparent }]}>
         <span class="block w-6 h-0.5 bg-current transition-transform duration-300"></span>
@@ -254,54 +65,6 @@ if (lang === 'en') {
       </a>
     ))}
 
-    <!-- Mobile Drawer Language List with Flags -->
-    <div class="pt-6 border-t border-navy/10 space-y-3">
-      <span class="font-sans text-[11px] uppercase tracking-wider text-gray-500 block mb-2">
-        {lang === 'en' ? 'Select Language' : 'Chọn ngôn ngữ'}
-      </span>
-      <div class="flex flex-col space-y-2">
-        <a 
-          href={enUrl} 
-          class:list={[
-            "flex items-center justify-between px-3 py-2 rounded-lg border text-xs font-sans transition-all duration-200",
-            lang === 'en' 
-              ? "border-gold bg-gold/10 text-navy font-semibold" 
-              : "border-gray-200 text-gray-700 hover:border-gold hover:text-gold"
-          ]}
-        >
-          <div class="flex items-center gap-2.5">
-            <svg class="w-4 h-2.5 rounded-[1px] shadow-2xs shrink-0" viewBox="0 0 60 40" fill="none">
-              <rect width="60" height="40" fill="#012169"/>
-              <path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" stroke-width="6"/>
-              <path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="4"/>
-              <path d="M30,0 v40 M0,20 h60" stroke="#fff" stroke-width="10"/>
-              <path d="M30,0 v40 M0,20 h60" stroke="#C8102E" stroke-width="6"/>
-            </svg>
-            <span>English</span>
-          </div>
-          {lang === 'en' && <span class="text-gold font-bold">✓</span>}
-        </a>
-
-        <a 
-          href={viUrl} 
-          class:list={[
-            "flex items-center justify-between px-3 py-2 rounded-lg border text-xs font-sans transition-all duration-200",
-            lang === 'vi' 
-              ? "border-gold bg-gold/10 text-navy font-semibold" 
-              : "border-gray-200 text-gray-700 hover:border-gold hover:text-gold"
-          ]}
-        >
-          <div class="flex items-center gap-2.5">
-            <svg class="w-4 h-2.5 rounded-[1px] shadow-2xs shrink-0" viewBox="0 0 30 20" fill="none">
-              <rect width="30" height="20" fill="#DA251D"/>
-              <polygon points="15,4 17.35,11.24 11.2,6.76 18.8,6.76 12.65,11.24" fill="#FFFF00"/>
-            </svg>
-            <span>Tiếng Việt</span>
-          </div>
-          {lang === 'vi' && <span class="text-gold font-bold">✓</span>}
-        </a>
-      </div>
-    </div>
   </nav>
 </div>
 
